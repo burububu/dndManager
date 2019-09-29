@@ -26,7 +26,11 @@ const getCost = score => {
 export default class SecondPage extends Component {
   constructor (props){
     super(props);
-    
+    this.race = this.props.navigation.state.params.JSON_ListView_Clicked_Item.character.race;
+    this.clas = this.props.navigation.state.params.JSON_ListView_Clicked_Item.character.clas;
+    this.background = this.props.navigation.state.params.JSON_ListView_Clicked_Item.character.background;
+    this.attributes = {};
+    this.modifiers = {};
     this.state ={
       standard: 27,
       str: 8,
@@ -34,40 +38,73 @@ export default class SecondPage extends Component {
       con: 8,
       int: 8,
       wis: 8,
-      cha: 8
+      cha: 8,
+      character: {
+        race: this.race,
+        clas: this.clas,
+        background: this.background,
+        attributes: this.attributes,
+        modifiers: this.modifiers
+      }
     }
-    this.receivedCharacter = {
-      race: this.props.navigation.state.params.JSON_ListView_Clicked_Item.character.race,
-      clas: this.props.navigation.state.params.JSON_ListView_Clicked_Item.character.clas,
-      background: this.props.navigation.state.params.JSON_ListView_Clicked_Item.character.background
-    }
-    this.attributes = {
-      str: this.receivedCharacter.race.str + this.state.str,
-      dex: this.receivedCharacter.race.dex + this.state.dex,
-      con: this.receivedCharacter.race.con + this.state.con,
-      int: this.receivedCharacter.race.int + this.state.int,
-      wis: this.receivedCharacter.race.wis + this.state.wis,
-      cha: this.receivedCharacter.race.cha + this.state.cha
-    }
-    this.modifiers = {
-      str: Math.floor((this.attributes.str-10)/2),
-      dex: Math.floor((this.attributes.dex-10)/2),
-      con: Math.floor((this.attributes.con-10)/2),
-      int: Math.floor((this.attributes.int-10)/2),
-      wis: Math.floor((this.attributes.wis-10)/2),
-      cha: Math.floor((this.attributes.cha-10)/2)
-    }
-    this.character = {
-      race: this.receivedCharacter.race,
-      clas: this.receivedCharacter.clas,
-      background: this.receivedCharacter.background,
-      attributes: this.attributes,
-      modifiers: this.modifiers
-    }
+
   }
   static navigationOptions = {
     title: 'Point Builder',
   };
+
+  async updateValues (){   
+    let strAtt = (this.race.str + this.state.str)
+    let dexAtt = (this.race.dex + this.state.dex)
+    let conAtt = (this.race.con + this.state.con)
+    let intAtt = (this.race.int + this.state.int)
+    let wisAtt = (this.race.wis + this.state.wis)
+    let chaAtt = (this.race.cha + this.state.cha)
+
+    let strMod = Math.floor((strAtt-10)/2)
+    let dexMod = Math.floor((dexAtt-10)/2)
+    let conMod = Math.floor((conAtt-10)/2)
+    let intMod = Math.floor((intAtt-10)/2)
+    let wisMod = Math.floor((wisAtt-10)/2)
+    let chaMod = Math.floor((chaAtt-10)/2)
+
+
+    let att = {
+      str: strAtt,
+      dex: dexAtt,
+      con: conAtt,
+      int: intAtt,
+      wis: wisAtt,
+      cha: chaAtt
+    }
+
+    let mod = {
+      str: strMod,
+      dex: dexMod,
+      con: conMod,
+      int: intMod,
+      wis: wisMod,
+      cha: chaMod
+    }
+    return {att, mod}
+  }
+
+  //MODIFIERS
+  async updateCharacter () {
+    const values = await this.updateValues();
+    this.setState(prevState => ({
+      character: {                   
+          ...prevState.character,    
+          attributes: values.att
+      }
+    }))
+    this.setState(prevState => ({
+      character: {                   
+          ...prevState.character,    
+          modifiers: values.mod
+      }
+    }));
+  }
 
   increase (currentScore, remaining, att) {
     const currentCost = getCost(currentScore + 1 );
@@ -105,7 +142,7 @@ export default class SecondPage extends Component {
         <View style={styles.btnPlace}>
           <View style={styles.columnFlex}>
             <Text>
-              STR + {this.character.race.str}
+              STR + {this.state.character.race.str}
             </Text>
             <View style={styles.rowFlex}>
             <TouchableOpacity style={styles.button} onPress={this.decrease.bind(this, this.state.str,this.state.standard, 'str')}>
@@ -118,7 +155,7 @@ export default class SecondPage extends Component {
             </View>
 
             <Text>
-              DEX + {this.character.race.des}
+              DEX + {this.state.character.race.dex}
             </Text>
             <View style={styles.rowFlex}>
             <TouchableOpacity style={styles.button} onPress={this.decrease.bind(this, this.state.dex,this.state.standard, 'dex')}>
@@ -131,7 +168,7 @@ export default class SecondPage extends Component {
             </View>
 
             <Text>
-              CON + {this.character.race.con}
+              CON + {this.state.character.race.con}
             </Text>
             <View style={styles.rowFlex}>
             <TouchableOpacity style={styles.button} onPress={this.decrease.bind(this, this.state.con,this.state.standard, 'con')}>
@@ -146,7 +183,7 @@ export default class SecondPage extends Component {
 
           <View style={styles.columnFlex}>
             <Text>
-              INT + {this.character.race.int}
+              INT + {this.state.character.race.int}
             </Text>
             <View style={styles.rowFlex}>
             <TouchableOpacity style={styles.button} onPress={this.decrease.bind(this, this.state.int,this.state.standard, 'int')}>
@@ -159,7 +196,7 @@ export default class SecondPage extends Component {
             </View>
 
             <Text>
-              WIS + {this.character.race.wis}
+              WIS + {this.state.character.race.wis}
             </Text>
             <View style={styles.rowFlex}>
             <TouchableOpacity style={styles.button} onPress={this.decrease.bind(this, this.state.wis,this.state.standard, 'wis')}>
@@ -171,7 +208,7 @@ export default class SecondPage extends Component {
             </TouchableOpacity>
             </View>
             <Text>
-              CHA + {this.character.race.cha}
+              CHA + {this.state.character.race.cha}
             </Text>
             <View style={styles.rowFlex}>
             <TouchableOpacity style={styles.button} onPress={this.decrease.bind(this, this.state.cha,this.state.standard, 'cha')}>
@@ -187,11 +224,12 @@ export default class SecondPage extends Component {
         <Button
           color='#58170D'
           title="Next"
-          onPress={() => {
+          onPress={async () => {
             if (this.state.standard === 0){
+              await this.updateCharacter(this);
               navigate('ThirdPage', {
-                JSON_ListView_Clicked_Item: {character:this.character}
-            })
+                 JSON_ListView_Clicked_Item: {character: this.state.character}
+              })
           }else {
             alert('You still have points to distribute, please complete the distribution before continue.')
           }}

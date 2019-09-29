@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Button, Picker, Text } from 'react-native';
+// import axios from 'axios';
+// import RNFS from 'react-native-fs';
+// import races from '../data/races.json'
+// import classes from '../data/classes.json';
+// import backgrounds from '../data/backgrounds.json';
+
+
 
 export default class characterBuilder extends Component {
   constructor(props) {
     super(props);
     this.race = {
-      human: {'name':'human','str':1,'des':1, 'con':1, 'int':1, 'wis':1, 'cha':1},  
-      dwarf: {'name':'dwarf','str':0,'des':0, 'con':2, 'int':0, 'wis':0, 'cha':0}
+      human: {'name':'human','str':1,'dex':1, 'con':1, 'int':1, 'wis':1, 'cha':1},  
+      dwarf: {'name':'dwarf','str':0,'dex':0, 'con':2, 'int':0, 'wis':0, 'cha':0}
     };
     
     this.clas = {
-      fighter: {'name':'fighter','pv':10},  
-      barbarian: {'name':'barbarian','pv': 12}
+      fighter: {'name':'fighter','hp':10},  
+      barbarian: {'name':'barbarian','hp': 12}
     };
 
     this.background = {
@@ -26,21 +33,42 @@ export default class characterBuilder extends Component {
   static navigationOptions = {
     title: 'Character Builder',
   };
- 
+
+  // atualize() {
+  //   console.log('aqui chega!')
+  //   axios.get('https://secret-temple-75252.herokuapp.com/races')
+  //   .then(response => {
+  //     RNFS.writeFile('../data/races.json', JSON.stringify(response.data), 'utf8').catch((err) => {
+  //     console.log(err.message)
+  //     })
+  //   })
+  //   // axios.get('https://secret-temple-75252.herokuapp.com/classes')
+    // .then(response => {
+    //   // fs.writeFile('../data/classes.json', response, (err) => {
+    //   //   if (err) throw err;
+    //   // })
+    // })
+    // axios.get('https://secret-temple-75252.herokuapp.com/backgrounds')
+    // .then(response => {
+    //   // fs.writeFile('../data/backgrounds.json', response, (err) => {
+    //   //   if (err) throw err;
+    //   // })
+    // })
+  // }
+
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <Text style={styles.textStyle}>Pick your traits</Text>
-
         <View style={styles.pickerContainer}>
         <Text style={styles.txt}> {"Race:"}</Text>
         <Picker style={styles.picker}
-          selectedValue={this.state.character.race.name} 
-          onValueChange={(itemValue) =>  
+          selectedValue={this.state.character.race.name}
+          onValueChange={(itemValue) =>
            this.setState(prevState => ({
-            character: {                   
-                ...prevState.character,    
+            character: {
+                ...prevState.character,
                 race: this.race[itemValue]
             }
         }))}  
@@ -89,10 +117,11 @@ export default class characterBuilder extends Component {
           title="Next"
           onPress={() =>
             navigate('SecondPage', {
-              JSON_ListView_Clicked_Item: {character:this.state.character}
+              JSON_ListView_Clicked_Item: {character: this.state.character}
             })
           }
         />
+        <Button color='#58170D' title='Atualize' onPress={() => {this.atualize()}}/>
       </View>
     );
   }

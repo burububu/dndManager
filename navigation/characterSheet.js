@@ -13,10 +13,65 @@ export default class characterSheet extends Component {
   render() {
     return (
       <View style={styles.container}> 
-        <View>
-          <Text style={styles.textStyle}> {"Raca = "+ this.state.race.name}</Text>
-          <Text style={styles.textStyle}> {"Class = "+this.state.clas.name}</Text>
-          <Text style={styles.textStyle}> {"Background = "+this.state.background.name}</Text>
+        <View style={styles.infoTable}>
+          <Text style={styles.txt}>Class: {this.state.clas.name}</Text>
+          <Text style={styles.txt}>Race: {this.state.race.name}</Text>
+          <Text style={styles.txt}>Background: {this.state.background.name}</Text>
+          <Text style={styles.txt}>Hit Points: {this.state.clas.hp}</Text>
+        </View>
+        <View style={styles.attContainer}>
+          <View style={styles.attColumn}>
+            <View style={styles.att}>
+              <Text style={styles.textStyle}>Strength</Text>
+              <Text style={styles.txt}>Score</Text>
+              <Text style={styles.txt}>{this.state.attributes.str}</Text>
+              <Text style={styles.txt}>Modifier</Text>
+              <Text style={styles.txt}>{this.state.modifiers.str}</Text>
+            </View>
+
+            <View style={styles.att}>
+              <Text style={styles.textStyle}>Dexterity</Text>
+              <Text style={styles.txt}>Score</Text>
+              <Text style={styles.txt}>{this.state.attributes.dex}</Text>
+              <Text style={styles.txt}>Modifier</Text>
+              <Text style={styles.txt}>{this.state.modifiers.dex}</Text>
+            </View>
+
+            <View style={styles.att}>
+              <Text style={styles.textStyle}>Constitution</Text>
+              <Text style={styles.txt}>Score</Text>
+              <Text style={styles.txt}>{this.state.attributes.con}</Text>
+              <Text style={styles.txt}>Modifier</Text>
+              <Text style={styles.txt}>{this.state.modifiers.con}</Text>
+            </View>
+          </View>
+
+
+          <View style={styles.attColumn}>
+            <View style={styles.att}>
+              <Text style={styles.textStyle}>Intelligence</Text>
+              <Text style={styles.txt}>Score</Text>
+              <Text style={styles.txt}>{this.state.attributes.int}</Text>
+              <Text style={styles.txt}>Modifier</Text>
+              <Text style={styles.txt}>{this.state.modifiers.int}</Text>
+            </View>
+
+            <View style={styles.att}>
+              <Text style={styles.textStyle}>Wisdom</Text>
+              <Text style={styles.txt}>Score</Text>
+              <Text style={styles.txt}>{this.state.attributes.wis}</Text>
+              <Text style={styles.txt}>Modifier</Text>
+              <Text style={styles.txt}>{this.state.modifiers.wis}</Text>
+            </View>
+
+            <View style={styles.att}>
+              <Text style={styles.textStyle}>Charisma</Text>
+              <Text style={styles.txt}>Score</Text>
+              <Text style={styles.txt}>{this.state.attributes.cha}</Text>
+              <Text style={styles.txt}>Modifier</Text>
+              <Text style={styles.txt}>{this.state.modifiers.cha}</Text>
+            </View>
+          </View>
         </View>
       </View>
     );
@@ -29,18 +84,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  infoTable: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  attContainer: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row'
+  },
+  attColumn: {
+    flexDirection: 'column',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  att: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   textStyle: {
-    margin: 24,
-    fontSize: 25,
+    fontSize: 20,
     color: '#58170D',
-    fontWeight: 'bold',
     textAlign: 'center',
-    fontFamily: 'dnd-font',
   },
   txt: {
     textAlign: 'center',
-    height: 50,
-    width: '50%',
+    fontSize: 16,
     justifyContent: 'center',
     color: '#000000',
   },
