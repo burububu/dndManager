@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Button, Picker, Text } from 'react-native';
-import axios from 'axios';
-import * as fs from 'expo-file-system';
 
 export default class characterBuilder extends Component {
   constructor(props) {
@@ -22,25 +20,22 @@ export default class characterBuilder extends Component {
     };
 
     this.state = {
-      character: {race:this.race.human, clas:this.clas.fighter, background:this.background.acolyte},
+      character: {race: this.race[Object.keys(this.race)[0]], clas: this.clas[Object.keys(this.clas)[0]], background: this.background[Object.keys(this.background)[0]]},
+      race: null,
+      clas: null,
+      background: null
     };
   }
   static navigationOptions = {
     title: 'Character Builder',
   };
 
-  
+  raceList = (request) =>{
+    return( Object.keys(this[request]).map( (name,index) => { 
+          return( <Picker.Item label={name} key={index} value={name}  />)} ));
+}
 
-  atualize() {
-    // can't confirm is working, can't read file content
-    const path = `${fs.documentDirectory}data/races.json`
-    axios.get('https://secret-temple-75252.herokuapp.com/races')
-    .then(response => {
-    fs.writeAsStringAsync(path, JSON.stringify(response.data)).catch((err) => {
-    console.log(err.message)
-       })
-     })
-  }
+
 
   render() {
     const { navigate } = this.props.navigation;
@@ -50,64 +45,66 @@ export default class characterBuilder extends Component {
         <View style={styles.pickerContainer}>
         <Text style={styles.txt}> {"Race:"}</Text>
         <Picker style={styles.picker}
-          selectedValue={this.state.character.race.name}
-          onValueChange={(itemValue) =>
-           this.setState(prevState => ({
-            character: {
-                ...prevState.character,
-                race: this.race[itemValue]
-            }
-        }))}  
+          selectedValue={this.state.race}
+          onValueChange={(itemValue) => {
+            this.setState({race: itemValue})
+            this.setState(prevState => ({
+              character: {
+                  ...prevState.character,
+                  race: this.race[itemValue]
+              }
+            }))
+            }} 
         >  
-          <Picker.Item label="Human" value='human' />  
-          <Picker.Item label="Dwarf" value="dwarf" />  
+          {this.raceList('race')} 
         </Picker>
         </View>
 
         <View style={styles.pickerContainer}>
         <Text style={styles.txt}> {"Class:"}</Text>
         <Picker style={styles.picker}
-          selectedValue={this.state.character.clas.name}
-          onValueChange={(itemValue) =>  
+          selectedValue={this.state.clas}
+          onValueChange={(itemValue) => {
+            this.setState({clas: itemValue})
             this.setState(prevState => ({
-            character: {                   
-                ...prevState.character,    
-                clas: this.clas[itemValue]
-            }
-        }))}  
+              character: {
+                  ...prevState.character,
+                  clas: this.clas[itemValue]
+              }
+            }))
+            }} 
         >  
-          <Picker.Item label="Fighter" value="fighter" />  
-          <Picker.Item label="Barbarian" value="barbarian" />  
+          {this.raceList('clas')} 
         </Picker>
         </View>
 
         <View style={styles.pickerContainer}>
         <Text style={styles.txt}> {"Background:"}</Text>
         <Picker style={styles.picker}
-          selectedValue={this.state.character.background.name}  
-          onValueChange={(itemValue) =>  
+          selectedValue={this.state.background}
+          onValueChange={(itemValue) => {
+            this.setState({background: itemValue})
             this.setState(prevState => ({
-            character: {                   
-                ...prevState.character,    
-                background: this.background[itemValue]
-            }
-        }))}  
+              character: {
+                  ...prevState.character,
+                  background: this.background[itemValue]
+              }
+            }))
+            }} 
         >  
-          <Picker.Item label="Acolyte" value="acolyte" />  
-          <Picker.Item label="Far traveler" value="far_traveler" />  
+          {this.raceList('background')} 
         </Picker>
         </View>
 
         <Button
           color='#58170D'
           title="Next"
-          onPress={() =>
+          onPress={() => {
             navigate('SecondPage', {
               JSON_ListView_Clicked_Item: {character: this.state.character}
             })
-          }
+          }}
         />
-        <Button color='#58170D' title='Atualize' onPress={() => {this.atualize()}}/>
       </View>
     );
   }
