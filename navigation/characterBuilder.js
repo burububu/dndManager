@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Button, Picker, Text } from 'react-native';
-// import axios from 'axios';
-// import RNFS from 'react-native-fs';
-// import races from '../data/races.json'
-// import classes from '../data/classes.json';
-// import backgrounds from '../data/backgrounds.json';
-
-
+import axios from 'axios';
+import * as fs from 'expo-file-system';
 
 export default class characterBuilder extends Component {
   constructor(props) {
@@ -34,27 +29,18 @@ export default class characterBuilder extends Component {
     title: 'Character Builder',
   };
 
-  // atualize() {
-  //   console.log('aqui chega!')
-  //   axios.get('https://secret-temple-75252.herokuapp.com/races')
-  //   .then(response => {
-  //     RNFS.writeFile('../data/races.json', JSON.stringify(response.data), 'utf8').catch((err) => {
-  //     console.log(err.message)
-  //     })
-  //   })
-  //   // axios.get('https://secret-temple-75252.herokuapp.com/classes')
-    // .then(response => {
-    //   // fs.writeFile('../data/classes.json', response, (err) => {
-    //   //   if (err) throw err;
-    //   // })
-    // })
-    // axios.get('https://secret-temple-75252.herokuapp.com/backgrounds')
-    // .then(response => {
-    //   // fs.writeFile('../data/backgrounds.json', response, (err) => {
-    //   //   if (err) throw err;
-    //   // })
-    // })
-  // }
+  
+
+  atualize() {
+    // can't confirm is working, can't read file content
+    const path = `${fs.documentDirectory}data/races.json`
+    axios.get('https://secret-temple-75252.herokuapp.com/races')
+    .then(response => {
+    fs.writeAsStringAsync(path, JSON.stringify(response.data)).catch((err) => {
+    console.log(err.message)
+       })
+     })
+  }
 
   render() {
     const { navigate } = this.props.navigation;
