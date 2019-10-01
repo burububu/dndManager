@@ -1,23 +1,17 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Button, Picker, Text } from 'react-native';
+import Race from '../data/races.json'
+import Clas from '../data/classes.json'
+import Background from '../data/backgrounds.json'
 
 export default class characterBuilder extends Component {
   constructor(props) {
     super(props);
-    this.race = {
-      human: {'name':'human','str':1,'dex':1, 'con':1, 'int':1, 'wis':1, 'cha':1},  
-      dwarf: {'name':'dwarf','str':0,'dex':0, 'con':2, 'int':0, 'wis':0, 'cha':0}
-    };
+    this.race = Race
     
-    this.clas = {
-      fighter: {'name':'fighter','hp':10},  
-      barbarian: {'name':'barbarian','hp': 12}
-    };
+    this.clas = Clas
 
-    this.background = {
-      acolyte: {'name':'acolyte','proficiencies': ['insight', 'religion']},  
-      far_traveler: {'name':'far_traveler','proficiencies': ['athletics', 'intimidation']}
-    };
+    this.background = Background
 
     this.state = {
       character: {race: this.race[Object.keys(this.race)[0]], clas: this.clas[Object.keys(this.clas)[0]], background: this.background[Object.keys(this.background)[0]]},

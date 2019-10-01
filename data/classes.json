@@ -1,2 +1,2 @@
-{"fighter": {"name":"fighter","hp":10},  
-"barbarian": {"name":"barbarian","hp": 12}}
+{"Fighter": {"name":"Fighter","hp":10},  
+"Barbarian": {"name":"Barbarian","hp": 12}}
