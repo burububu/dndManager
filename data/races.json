@@ -1,2 +1,4 @@
-{ "Human": {"name":"Human","str": 1,"dex":1, "con":1, "int":1, "wis":1, "cha":1},  
-"Dwarf": {"name":"Dwarf","str":0,"dex":0, "con":2, "int":0, "wis":0, "cha":0}}
+{"Human":{"name":"Human","str":1,"dex":1,"con":1,"int":1,"wis":1,"cha":1},
+"Dwarf":{"name":"Dwarf","str":0,"dex":0,"con":2,"int":0,"wis":0,"cha":0},
+"Elf":{"name":"Elf","str":0,"dex":2,"con":0,"int":0,"wis":0,"cha":0},
+"Halfling":{"name":"Halfling","str":0,"dex":2,"con":0,"int":0,"wis":0,"cha":0}}

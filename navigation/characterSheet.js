@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View,  Text } from 'react-native';
+import { StyleSheet, View,  Text, Button } from 'react-native';
 
 export default class characterSheet extends Component {
   constructor(props) {
@@ -11,6 +11,7 @@ export default class characterSheet extends Component {
   };
  
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}> 
         <View style={styles.infoTable}>
@@ -73,6 +74,15 @@ export default class characterSheet extends Component {
             </View>
           </View>
         </View>
+        <Button
+          color='#58170D'
+          title="Next"
+          onPress={ () => {
+            navigate('ForthPage', {
+              JSON_ListView_Clicked_Item: {character: this.state}
+            })
+          }}
+        />
       </View>
     );
   }

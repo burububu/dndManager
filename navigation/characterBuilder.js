@@ -14,7 +14,7 @@ export default class characterBuilder extends Component {
     this.background = Background
 
     this.state = {
-      character: {race: this.race[Object.keys(this.race)[0]], clas: this.clas[Object.keys(this.clas)[0]], background: this.background[Object.keys(this.background)[0]]},
+      character: {race: {}, clas: {}, background: {}},
       race: null,
       clas: null,
       background: null
@@ -24,9 +24,50 @@ export default class characterBuilder extends Component {
     title: 'Character Builder',
   };
 
-  raceList = (request) =>{
-    return( Object.keys(this[request]).map( (name,index) => { 
-          return( <Picker.Item label={name} key={index} value={name}  />)} ));
+  componentDidMount () {
+    const races = []
+    for (var name in this.race){
+      races.push(name)
+    }
+    const classes = []
+    for (var name in this.clas){
+      classes.push(name)
+    }
+    const backgrounds = []
+    for (var name in this.background){
+      backgrounds.push(name)
+    }
+    const raced = races.sort()
+    const classed = classes.sort()
+    const backgrounded = backgrounds.sort()
+    this.setState(prevState => ({
+      character: {
+          ...prevState.character,
+          race: this.race[raced[0]]
+      }
+    }))
+    this.setState(prevState => ({
+      character: {
+          ...prevState.character,
+          clas: this.clas[classed[0]]
+      }
+    }))
+    this.setState(prevState => ({
+      character: {
+          ...prevState.character,
+          background: this.background[backgrounded[0]]
+      }
+    }))
+  }
+
+  List = (request) => {
+    let sortable = []
+    for (var name in this[request]){
+      sortable.push(name)
+    }
+    let sorted = sortable.sort()
+    return( sorted.map( (name,index) => { 
+      return( <Picker.Item label={name} key={index} value={name}  />)} ));
 }
 
 
@@ -50,7 +91,7 @@ export default class characterBuilder extends Component {
             }))
             }} 
         >  
-          {this.raceList('race')} 
+          {this.List('race')} 
         </Picker>
         </View>
 
@@ -68,7 +109,7 @@ export default class characterBuilder extends Component {
             }))
             }} 
         >  
-          {this.raceList('clas')} 
+          {this.List('clas')} 
         </Picker>
         </View>
 
@@ -86,7 +127,7 @@ export default class characterBuilder extends Component {
             }))
             }} 
         >  
-          {this.raceList('background')} 
+          {this.List('background')} 
         </Picker>
         </View>
 

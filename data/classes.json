@@ -1,2 +1,4 @@
-{"Fighter": {"name":"Fighter","hp":10},  
-"Barbarian": {"name":"Barbarian","hp": 12}}
+{"Fighter":{"name":"Fighter","pv":10},
+"Barbarian":{"name":"Barbarian","pv":12},
+"Ranger":{"name":"Ranger","pv":10},
+"Wizard":{"name":"Wizard","pv":6}}
