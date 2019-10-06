@@ -1,88 +1,56 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Button, Picker, Text } from 'react-native';
-import Proficiencies from '../data/proficiencies.json'
+import { Card } from 'react-native-elements';
+import { StyleSheet, Text, ScrollView } from 'react-native';
+import Proficiencies from '../data/proficiencies.json';
+import Attributes from '../data/attributes.json';
 
 export default class skillsSheet extends Component {
     constructor(props){
         super(props);
         this.proficiencies = Proficiencies;
-        this.character = props.navigation.state.params.JSON_ListView_Clicked_Item.character
+        this.character = props.navigation.state.params.JSON_ListView_Clicked_Item.character;
+        this.atri = Attributes;
 
-        this.strSkills = this.proficiencies.Strength
-        this.dexSkills = this.proficiencies.Dexterity
-        this.conSkills = this.proficiencies.Constitution
-        this.intSkills = this.proficiencies.Intelligence
-        this.wisSkills = this.proficiencies.Wisdom
-        this.chaSkills = this.proficiencies.Charisma
+        this.proficiency = 2;
     }
 
+    static navigationOptions = {
+        title: 'Skills',
+      };
+
     skillView (att) {
-        return( this[att + 'Skills'].map( (name,index) => { 
-            return( <Text>{name} {this.character.modifiers[att]}</Text>)} ));
+        let actual = this.atri[att]
+        return(
+            <Card title={actual}>
+                {this.proficiencies[actual].map( (name,index) => {
+                    if (this.character.background.proficiencies.includes(name)){
+                        return( <Text>{name} {this.character.modifiers[att] + this.proficiency}</Text>)
+                    }else{
+                        return( <Text>{name} {this.character.modifiers[att]}</Text>)
+                    }
+                    })}
+            </Card>
+        )
     }
 
     render() {
         return(
-            <View style={styles.container}>
-                <View>
-                    <Text>Strenght</Text>
+            <ScrollView style={styles.container}>
                     {this.skillView('str')}
-                </View>
-                <View>
-                    <Text>Dexterity</Text>
                     {this.skillView('dex')}
-                </View>
-                <View>
-                    <Text>Intelligence</Text>
                     {this.skillView('int')}
-                </View>
-            </View>
+                    {this.skillView('wis')}
+                    {this.skillView('cha')}
+            </ScrollView>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
       backgroundColor: '#EEE5CE',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'row'
-    },
-    infoTable: {
-      flex: 1,
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    attContainer: {
-      flex: 2,
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'row'
-    },
-    attColumn: {
-      flexDirection: 'column',
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    att: {
-      flex: 1,
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    textStyle: {
-      fontSize: 20,
-      color: '#58170D',
-      textAlign: 'center',
-    },
-    txt: {
-      textAlign: 'center',
-      fontSize: 16,
-      justifyContent: 'center',
-      color: '#000000',
+      justifyContent: 'space-evenly',
+      flex: 1
     },
   });
   
